@@ -34,25 +34,25 @@ class Network:
         total parameters of this Neural Network would turn out ot be 784x50 + 50 + 50x10 + 10 = 39,760
         Hence, this model would have 39,760 parameters.
         '''
-        self.a = [a]
-        print(type(self.a[0]))
-        print(self.a[0].shape)
+        self.io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
+        print(type(self.io_layer[0]))
+        print(self.io_layer[0].shape)
         print(self.weights[0].shape)
         print(self.layer_num-1)
         print([x for x in range(self.layer_num - 1)])
         for i in range(self.layer_num - 1):
             w = self.weights[i]
             b = self.biases[i]
-            act = self.a[i]
-            print(w,b,act)
-            print("working till here!")
-            print(w.shape)
-            print(b.shape)
-            print(act.shape)
-            z = self.sigmoid( w @ act + b )
-            print(i+1, " loop worked")
-            self.a.append(z)
-        return z, z.shape
+            a = self.io_layer[i]
+            # print(w,b,act)
+            # print(i+1," loop working till here!")
+            # print(w.shape)
+            # print(b.shape)
+            # print(act.shape)
+            z = self.sigmoid( w @ a + b )
+            # print(i+1, " loop worked")
+            self.io_layer.append(z)
+        return z
             
         
 
