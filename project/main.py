@@ -20,11 +20,11 @@ class Network:
         self.weights = [ np.random.randn(y,x) for y,x in zip(net_size[ 1: ], net_size[ :-1 ]) ] # Definging the weights for each layer of the entire network
         
     # The sigmoid/activatoin function
-    def sigmoid(self, z: float):
+    def sigmoid(self, z: float) -> float:
         return 1/( 1 + np.exp(-z) )
     
     # Defining the feedforward function which will also be used to train the certain data (later)
-    def feedforward(self, a: list):
+    def feedforward(self, a: list) -> list:
         '''
         For this specific network, we know that:
         the weight matricies are [784,50] and [50,10] (dimensions/sizes)
@@ -34,25 +34,30 @@ class Network:
         total parameters of this Neural Network would turn out ot be 784x50 + 50 + 50x10 + 10 = 39,760
         Hence, this model would have 39,760 parameters.
         '''
-        self.io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
-        print(type(self.io_layer[0]))
-        print(self.io_layer[0].shape)
-        print(self.weights[0].shape)
-        print(self.layer_num-1)
-        print([x for x in range(self.layer_num - 1)])
+        io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
+        # printing certain values for the sake of debugging.
+        # print(type(io_layer[0]))
+        # print(io_layer[0].shape)
+        # print(self.weights[0].shape)
+        # print(self.layer_num-1)
+        # print([x for x in range(self.layer_num - 1)])
         for i in range(self.layer_num - 1):
+            # Defining certain required entities
             w = self.weights[i]
             b = self.biases[i]
-            a = self.io_layer[i]
+            x = io_layer[i]
+            # printing certain values for the sake of debugging.
             # print(w,b,act)
             # print(i+1," loop working till here!")
             # print(w.shape)
             # print(b.shape)
-            # print(act.shape)
-            z = self.sigmoid( w @ a + b )
+            # print(x.shape)
+            z = w @ x + b
+            a = self.sigmoid(z)
+            # @ decorator is used in python numpy to do matrix multiplication.
             # print(i+1, " loop worked")
-            self.io_layer.append(z)
-        return z
+            io_layer.append(a)
+        return a
             
         
 
