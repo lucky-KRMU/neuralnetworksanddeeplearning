@@ -62,6 +62,9 @@ class Network:
             # print(i+1, " loop worked")
             io_layer.append(a)
         return a
+    
+    def cost(self, a:float, y: int) -> float:
+        return .5 * ( a - y ) ** 2
             
         
 
