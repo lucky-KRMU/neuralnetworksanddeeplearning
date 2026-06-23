@@ -5,10 +5,10 @@ Further details about the program will be given in the following code only.
 
 #importing the necessary modules/libraries
 
-import random
+
 import numpy as np
 
-random.seed(42)
+np.random.seed(42)
 
 
 #creating the neural network
