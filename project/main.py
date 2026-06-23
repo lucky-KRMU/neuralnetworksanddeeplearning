@@ -65,6 +65,9 @@ class Network:
     
     def cost(self, a:float, y: int) -> float:
         return .5 * ( a - y ) ** 2
+    
+    def train(self, training_data: list, lr: float = .01, epochs: int = 1):
+        pass
             
         
 
