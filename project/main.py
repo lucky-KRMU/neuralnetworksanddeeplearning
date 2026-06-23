@@ -66,6 +66,11 @@ class Network:
     def cost(self, a:float, y: int) -> float:
         return .5 * ( a - y ) ** 2
     
+    def vectorize(self, label: int) -> list:
+        vec = np.zeros((10,1))
+        vec[label] = 1
+        return vec
+    
     def train(self, training_data: list, lr: float = .01, epochs: int = 1):
         pass
             
@@ -91,3 +96,6 @@ N = Network([784, 50, 10])
 # a = np.random.randn(784,1)
 output = N.feedforward(a)
 print(output)
+
+# test_vec = N.vectorize(3)
+# print(test_vec)
