@@ -37,6 +37,7 @@ class Network:
         total parameters of this Neural Network would turn out ot be 784x50 + 50 + 50x10 + 10 = 39,760
         Hence, this model would have 39,760 parameters.
         '''
+        a = a/255 # -> this is used for normalizing the value of each pixel. pixel activation lies in [0,255]
         io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
         # printing certain values for the sake of debugging.
         # print(type(io_layer[0]))
@@ -70,13 +71,13 @@ test_data = np.loadtxt(
     delimiter=',',
     skiprows=1
 )
-print(type(test_data))
-print(len(test_data))
-print(test_data.shape)
+# print(type(test_data))
+# print(len(test_data))
+# print(test_data.shape)
 a = np.array([test_data[0]]).T
-print(type(a))
-print(len(a))
-print(a.shape)
+# print(type(a))
+# print(len(a))
+# print(a.shape)
         
     
 N = Network([784, 50, 10])
