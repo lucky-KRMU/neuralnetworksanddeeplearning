@@ -64,10 +64,23 @@ class Network:
             
         
 
+# Loading the MNIST Dataset for the sake of testing a single prediction out of the network (without training)
+test_data = np.loadtxt(
+    "data/test.csv",
+    delimiter=',',
+    skiprows=1
+)
+print(type(test_data))
+print(len(test_data))
+print(test_data.shape)
+a = np.array([test_data[0]]).T
+print(type(a))
+print(len(a))
+print(a.shape)
         
     
 N = Network([784, 50, 10])
         
-a = np.random.randn(784,1)
+# a = np.random.randn(784,1)
 output = N.feedforward(a)
 print(output)
