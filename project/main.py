@@ -89,18 +89,16 @@ class Network:
         self.layer_error_gradient = []
         self.layer_bias_gradient = []
         
-        # Dealing with the training data
-        y = len(training_data)
-        
-        for i in range(self.layer_num, 0, -1):
-            # delta = (training_data - y)
-            pass
+        for i in range(epochs):
+            for data in training_data:
+                y : int = data[0]
+                train_inputs : list = data[1:]
             
         
 
 # Loading the MNIST Dataset for the sake of testing a single prediction out of the network (without training)
 test_data = np.loadtxt(
-    "data/test.csv",
+    "data/train.csv",
     delimiter=',',
     skiprows=1
 )
