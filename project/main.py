@@ -26,6 +26,10 @@ class Network:
     def sigmoid(self, z: float) -> float:
         return 1/( 1 + np.exp(-z) )
     
+    # The sigmoid prime function is the derivative of sigmoid function
+    def sigmoid_prime(self, z: float) -> float:
+        return self.sigmoid(z) * ( 1 - self.sigmoid(z) )
+    
     # Defining the feedforward function which will also be used to train the certain data (later)
     def feedforward(self, a: list) -> list:
         '''
