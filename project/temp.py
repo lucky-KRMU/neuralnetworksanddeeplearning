@@ -5,24 +5,35 @@ This is a python file which is made to run small experimental code before gettin
 
 import numpy as np
 
-def sigmoid(x): return 1/(1+np.exp(-x))
+# def sigmoid(x): return 1/(1+np.exp(-x))
 
-array = np.array([784, 50, 10])
+# array = np.array([784, 50, 10])
 
-W = [np.random.randn(y,x) for x,y in zip(array[1:], array[:-1])]
-X = [np.random.randn(y,x) for x,y in zip(array[1:], array[:-1])]
-B = [np.random.randn(x) for x in range(len(array[1:]))]
+# W = [np.random.randn(y,x) for x,y in zip(array[1:], array[:-1])]
+# X = [np.random.randn(y,x) for x,y in zip(array[1:], array[:-1])]
+# B = [np.random.randn(x) for x in range(len(array[1:]))]
 
-for i in range(len(W)):
-    print(W[i].shape)
-print('\n')
-for i in range(len(X)):
-    print(X[i].shape)
+# for i in range(len(W)):
+#     print(W[i].shape)
+# print('\n')
+# for i in range(len(X)):
+#     print(X[i].shape)
  
-y = []
+# y = []
     
-for i in range(len(W)):
-    a = np.dot(W[i], X[i])
-    y.append(a)
+# for i in range(len(W)):
+#     a = np.dot(W[i], X[i])
+#     y.append(a)
 
-print(y)    
+# print(y)    
+
+test_data = np.genfromtxt(
+    "data/test.csv",
+    delimiter=','
+)
+a = test_data[0][0]
+# print(type(test_data))
+# print(test_data.shape)
+print(type(a))
+print(a.shape)
+print(a)

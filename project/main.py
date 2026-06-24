@@ -42,7 +42,7 @@ class Network:
         Hence, this model would have 39,760 parameters.
         '''
         a = a/255 # -> this is used for normalizing the value of each pixel. pixel activation lies in [0,255]
-        io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
+        self.io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
         # printing certain values for the sake of debugging.
         # print(type(io_layer[0]))
         # print(io_layer[0].shape)
@@ -53,7 +53,7 @@ class Network:
             # Defining certain required entities
             w = self.weights[i]
             b = self.biases[i]
-            x = io_layer[i]
+            x = self.io_layer[i]
             # printing certain values for the sake of debugging.
             # print(w,b,act)
             # print(i+1," loop working till here!")
@@ -64,7 +64,7 @@ class Network:
             a = self.sigmoid(z)
             # @ decorator is used in python numpy to do matrix multiplication.
             # print(i+1, " loop worked")
-            io_layer.append(a)
+            self.io_layer.append(a)
         return a
     
     def cost(self, a:float, y: int) -> float:
@@ -76,7 +76,13 @@ class Network:
         return vec
     
     def train(self, training_data: list, lr: float = .01, epochs: int = 1):
-        pass
+        # This is the loop for back propagation (investigating the weights)
+        self.layer_error = []
+        self.layer_error_gradient = []
+        self.layer_bias_gradient
+        for i in range(self.layer_num, 0, -1):
+            # delta = (training_data - y)
+            pass
             
         
 
