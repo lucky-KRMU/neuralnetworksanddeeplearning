@@ -27,8 +27,12 @@ class Network:
         return 1/( 1 + np.exp(-z) )
     
     # The sigmoid prime function is the derivative of sigmoid function
-    def sigmoid_prime(self, z: float) -> float:
-        return self.sigmoid(z) * ( 1 - self.sigmoid(z) )
+    def sigmoid_prime(self, a: float) -> float:
+        '''
+        a is already the final activation(sigmoid) 
+        '''
+        
+        return a * ( 1 - a )
     
     # Defining the feedforward function which will also be used to train the certain data (later)
     def feedforward(self, a: list) -> list:
@@ -75,6 +79,11 @@ class Network:
         vec[label] = 1
         return vec
     
+    def del_gradient(self, L: int, a: float) -> list:
+        if L == self.layer_num - 1:
+            return a * self.sigmoid_prime(a)
+        return self.del_gradient(L-1) * 
+    
     def train(self, training_data: list, lr: float = .01, epochs: int = 1):
         '''
         Information about train function.
@@ -93,6 +102,15 @@ class Network:
             for data in training_data:
                 y : int = data[0]
                 train_inputs : list = data[1:]
+                
+                a: float = self.feedforward(train_inputs)
+                
+                # Back propagation code strats from here
+                gradient = ( a - y ) * self.sigmoid_prime(a)
+                
+                for j in range(len(self.layer_num) - 1, 0, -1):
+                    weight_gradient = gradient * self.weights[-1]
+                    bias_gradient = gradient
             
         
 
