@@ -27,13 +27,19 @@ import numpy as np
 
 # print(y)    
 
-test_data = np.genfromtxt(
-    "data/test.csv",
-    delimiter=','
+test_data = np.loadtxt(
+    "data/dummy_test_train.csv",
+    delimiter=',',
+    skiprows=1
 )
-a = test_data[0][0]
+a = test_data[3]
 # print(type(test_data))
 # print(test_data.shape)
 print(type(a))
 print(a.shape)
-print(a)
+print(a[0])
+b = a[1:]
+print(type(b))
+print(b.shape)
+# print(b.reshape(28,28))
+# print(a)

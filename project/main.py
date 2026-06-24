@@ -76,10 +76,22 @@ class Network:
         return vec
     
     def train(self, training_data: list, lr: float = .01, epochs: int = 1):
+        '''
+        Information about train function.
+        1. About the training_data:
+        In this function training data will be given as whole. The training data consists of numpy arrays. it has over 28,000 numpy arrays inside of it. 
+        Whole is packed as a single numpy array. creating a 2D matrix.
+        each row has 785 columns, in which the first column consists of the label and the other are the actual numbers.
+        '''
+        
         # This is the loop for back propagation (investigating the weights)
         self.layer_error = []
         self.layer_error_gradient = []
-        self.layer_bias_gradient
+        self.layer_bias_gradient = []
+        
+        # Dealing with the training data
+        y = len(training_data)
+        
         for i in range(self.layer_num, 0, -1):
             # delta = (training_data - y)
             pass
