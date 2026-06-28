@@ -91,25 +91,35 @@ class Network:
         each row has 785 columns, in which the first column consists of the label and the other are the actual numbers.
         '''
         
-        # applying SGD (Stochastic gradient descent)
-        np.random.shuffle(training_data)
-        SGD_lists = [ training_data[:10000], training_data[10000:20000], training_data[20000:30000], training_data[30000:40000], training_data[40000:] ]
-        
-        
+        # necessary variables for SGD
+        batch_size = 64
+        if (len(training_data)%batch_size == 0):
+            training_data_size = len(training_data)//batch_size 
+        else:
+            training_data_size = len(training_data)//batch_size + 1
         
         # This is the loop for back propagation (investigating the weights)
         
         
         for i in range(epochs):
             
+            # applying SGD (Stochastic gradient descent)
+            np.random.shuffle(training_data)
+            # SGD_lists = [ training_data[:10000], training_data[10000:20000], training_data[20000:30000], training_data[30000:40000], training_data[40000:] ]
+            
+            
             layer_error = [] # This is for storing δ
             layer_error_gradient = [] # This is for storing the values of updated gradients of weights
             layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
             
-            for SDG_batch in SGD_lists:
+            old_index = 0
+            
+            for j in range(training_data_size):
+                SGD_batch = training_data[old_index:old_index+batch_size]
+                old_index += batch_size
             
             
-                for data in SDG_batch:
+                for data in SGD_batch:
                     
                     y = data[0]
                     # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
@@ -122,11 +132,11 @@ class Network:
                     # Back propagation code strats from here
                     gradient = (self.io_layer[self.io_layer[0]-1] - self.vectorize(y)) * self.sigmoid_prime(self.io_layer[0]-1)
                     
-                    for j in range(self.layer_num-1, 0, -1):
-                        if j == self.layer_num - 1:
-                            gradient_weight = gradient * (self.io_layer[j-1].T)
+                    for k in range(self.layer_num-1, 0, -1):
+                        if k == self.layer_num - 1:
+                            gradient_weight = gradient * (self.io_layer[k-1].T)
                         else: 
-                            gradient_weight = gradient * self.weights[j] * (self.io_layer[j-1].T)
+                            gradient_weight = gradient * self.weights[k] * (self.io_layer[k-1].T)
                         gradient_bias = gradient
                         gradient = gradient_weight
                         
@@ -134,10 +144,10 @@ class Network:
                         layer_error_gradient.append(gradient_bias)
                         layer_bias_gradient.append(gradient_weight)
                         
-                    # Gradient Descent starts here
-                    for j in range(self.io_layer-1, 0, -1):
-                        self.weights[j] -= lr * layer_error_gradient[j]
-                        self.biases[j] -= lr * layer_bias_gradient[j]
+                # Gradient Descent starts here
+                for k in range(self.io_layer-1, 0, -1):
+                    self.weights[k] -= lr * layer_error_gradient[k]
+                    self.biases[k] -= lr * layer_bias_gradient[k]
                 
         
 
