@@ -63,7 +63,11 @@ class Network:
 Network = Network([784, 50, 10])
 Network.info()
 
-a = np.loadtxt('data/train.csv', skiprows=1, delimiter=',')
+a = np.loadtxt('data/dummy_test_train.csv', skiprows=1, delimiter=',')
 print("loaded")
 print(type(a))
 print(a.shape)
+train_inputs = np.array(a[1][1:]).reshape(784,1)
+print("loaded")
+print(type(train_inputs))
+print(train_inputs.shape)
