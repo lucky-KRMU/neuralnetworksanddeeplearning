@@ -79,11 +79,7 @@ class Network:
         vec[label] = 1
         return vec
     
-    def del_gradient(self, L: int, a: float) -> list:
-        '''
-        This is the recursive method to get the graident for each layer recursively.
-        '''
-        
+    
         
     
     def train(self, training_data: list, lr: float = .01, epochs: int = 1):
