@@ -62,3 +62,8 @@ class Network:
         
 Network = Network([784, 50, 10])
 Network.info()
+
+a = np.loadtxt('data/train.csv', skiprows=1, delimiter=',')
+print("loaded")
+print(type(a))
+print(a.shape)

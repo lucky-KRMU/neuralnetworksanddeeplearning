@@ -91,25 +91,51 @@ class Network:
         each row has 785 columns, in which the first column consists of the label and the other are the actual numbers.
         '''
         
+        # applying SDG (Stochastic gradient descent)
+        SDG_training_data = np.random.shuffle(training_data)
+        SDG_lists = [ SDG_training_data[:20000], SDG_training_data[20001:40000], SDG_training_data[40001:] ]
+        
+        
+        
         # This is the loop for back propagation (investigating the weights)
-        self.layer_error = [] # This is for storing δ
-        self.layer_error_gradient = [] # This is for storing the values of updated gradients of weights
-        self.layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
+        layer_error = [] # This is for storing δ
+        layer_error_gradient = [] # This is for storing the values of updated gradients of weights
+        layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
+        
         
         for i in range(epochs):
+            for SDG_batch in SDG_lists:
             
             
-            for data in training_data:
-                
-                y = data[0]
-                # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
-                # train_inputs = data[1:]
-                train_inputs = np.array(data[1:]).T
-                # print(train_inputs.shape) 
-                
-                a = self.feedforward(train_inputs)
-                
-                # Back propagation code strats from here
+                for data in SDG_batch:
+                    
+                    y = data[0]
+                    # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
+                    # train_inputs = data[1:]
+                    train_inputs = np.array(data[1:]).T
+                    # print(train_inputs.shape) 
+                    
+                    a = self.feedforward(train_inputs)
+                    
+                    # Back propagation code strats from here
+                    gradient = (self.io_layer[self.io_layer[0]-1] - self.vectorize(y)) * self.sigmoid_prime(self.io_layer[0]-1)
+                    
+                    for j in range(self.layer_num-1, 0, -1):
+                        if j == self.layer_num - 1:
+                            gradient_weight = gradient * (self.io_layer[j-1].T)
+                        else: 
+                            gradient_weight = gradient * self.weights[j] * (self.io_layer[j-1].T)
+                        gradient_bias = gradient
+                        gradient = gradient_weight
+                        
+                        # appending to the lists
+                        layer_error_gradient.append(gradient_bias)
+                        layer_bias_gradient.append(gradient_weight)
+                        
+                    # Gradient Descent starts here
+                    for j in range(self.io_layer-1, 0, -1):
+                        self.weights[j] -= lr * layer_error_gradient[j]
+                        self.biases[j] -= lr * layer_bias_gradient[j]
                 
         
 
@@ -123,16 +149,17 @@ test_data = np.loadtxt(
 # print(len(test_data))
 # print(test_data.shape)
 a = np.array([test_data[1][1:]]).T
-print(type(a))
-print(len(a))
-print(a.shape)
+# print(type(a))
+# print(len(a))
+# print(a.shape)
         
     
 N = Network([784, 50, 10])
         
 # a = np.random.randn(784,1)
 output = N.feedforward(a)
-print(output)
+# print(output)
+N.train(test_data[1:])
 
 # test_vec = N.vectorize(3)
 # print(test_vec)
