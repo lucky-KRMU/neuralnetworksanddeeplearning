@@ -35,7 +35,7 @@ class Network:
         return a * ( 1 - a )
     
     # Defining the feedforward function which will also be used to train the certain data (later)
-    def feedforward(self, a: list) -> list:
+    def feedforward(self, a: np.ndarray) -> np.ndarray:
         '''
         For this specific network, we know that:
         the weight matricies are [784,50] and [50,10] (dimensions/sizes)
@@ -80,9 +80,11 @@ class Network:
         return vec
     
     def del_gradient(self, L: int, a: float) -> list:
-        if L == self.layer_num - 1:
-            return a * self.sigmoid_prime(a)
-        return self.del_gradient(L-1) * 
+        '''
+        This is the recursive method to get the graident for each layer recursively.
+        '''
+        
+        
     
     def train(self, training_data: list, lr: float = .01, epochs: int = 1):
         '''
@@ -94,24 +96,25 @@ class Network:
         '''
         
         # This is the loop for back propagation (investigating the weights)
-        self.layer_error = []
-        self.layer_error_gradient = []
-        self.layer_bias_gradient = []
+        self.layer_error = [] # This is for storing δ
+        self.layer_error_gradient = [] # This is for storing the values of updated gradients of weights
+        self.layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
         
         for i in range(epochs):
+            
+            
             for data in training_data:
-                y : int = data[0]
-                train_inputs : list = data[1:]
                 
-                a: float = self.feedforward(train_inputs)
+                y = data[0]
+                # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
+                # train_inputs = data[1:]
+                train_inputs = np.array(data[1:]).T
+                # print(train_inputs.shape) 
+                
+                a = self.feedforward(train_inputs)
                 
                 # Back propagation code strats from here
-                gradient = ( a - y ) * self.sigmoid_prime(a)
                 
-                for j in range(len(self.layer_num) - 1, 0, -1):
-                    weight_gradient = gradient * self.weights[-1]
-                    bias_gradient = gradient
-            
         
 
 # Loading the MNIST Dataset for the sake of testing a single prediction out of the network (without training)
@@ -123,10 +126,10 @@ test_data = np.loadtxt(
 # print(type(test_data))
 # print(len(test_data))
 # print(test_data.shape)
-a = np.array([test_data[0]]).T
-# print(type(a))
-# print(len(a))
-# print(a.shape)
+a = np.array([test_data[1][1:]]).T
+print(type(a))
+print(len(a))
+print(a.shape)
         
     
 N = Network([784, 50, 10])

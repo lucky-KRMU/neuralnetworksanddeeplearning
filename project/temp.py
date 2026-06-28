@@ -27,19 +27,38 @@ import numpy as np
 
 # print(y)    
 
-test_data = np.loadtxt(
-    "data/dummy_test_train.csv",
-    delimiter=',',
-    skiprows=1
-)
-a = test_data[3]
+# test_data = np.loadtxt(
+#     "data/dummy_test_train.csv",
+#     delimiter=',',
+#     skiprows=1
+# )
+# a = test_data[3]
 # print(type(test_data))
 # print(test_data.shape)
-print(type(a))
-print(a.shape)
-print(a[0])
-b = a[1:]
-print(type(b))
-print(b.shape)
+# print(type(a))
+# print(a.shape)
+# print(a[0])
+# b = a[1:]
+# print(type(b))
+# print(b.shape)
 # print(b.reshape(28,28))
 # print(a)
+
+
+class Network:
+    def __init__(self, list):
+        self.layers = list
+        self.num_layers = len(list)
+        self.weights = [ np.random.randn(x,y) for x,y in zip(self.layers[1:], self.layers[:-1]) ]
+        self.biases = [ np.random.randn(y, 1) for y in  self.layers[1:] ]
+        
+    def info(self):
+        print("Information about the weights: ")
+        for layer in self.weights:
+            print(layer.shape)
+        print("Information about biases: ")
+        for layer in self.biases:
+            print(layer.shape)
+        
+Network = Network([784, 50, 10])
+Network.info()
