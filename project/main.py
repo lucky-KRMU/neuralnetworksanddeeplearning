@@ -127,20 +127,29 @@ class Network:
                     train_inputs = np.array(data[1:]).reshape(784,1)
                     # print(train_inputs.shape) 
                     
-                    activations_list = self.feedforward(train_inputs)
+                    # running the feedforward loop
+                    self.feedforward(train_inputs)
                     
                     # Back propagation code strats from here
-                    error_gradient = ( activations_list[self.layer_num - 1] - self.vectorize(y) ) * self.sigmoid_prime(activations_list[self.layer_num - 1])
+                    error_gradient = ( self.io_layer[self.layer_num - 1] - self.vectorize(y) ) * self.sigmoid_prime(self.io_layer[self.layer_num - 1])
                     for k in range(self.layer_num - 1, 0, -1):
                         if k == self.layer_num - 1:
-                            error_weight_gradient  = error_gradient @ self.io_layer[k].T
+                            error_weight_gradient  = error_gradient @ self.io_layer[k-1].T
                         else:
-                            error_weight_gradient = self.weights[k+1].T @ error_gradient @ self.io_layer[k].T
+                            error_weight_gradient = self.weights[k+1].T @ error_gradient @ self.io_layer[k-1].T
+                        
+                        layer_error_gradient.append(error_weight_gradient)
+                        layer_bias_gradient.append(error_gradient)
+                        
+                        # updating the error gradient
+                        error_gradient *= self.sigmoid_prime(self.io_layer[k -1])
+                        
+                        
 
                         
                         
                 # Gradient Descent starts here
-                for k in range(self.io_layer-1, 0, -1):
+                for k in range(self.layer_num-1, 0, -1):
                     self.weights[k] -= lr * layer_error_gradient[k]
                     self.biases[k] -= lr * layer_bias_gradient[k]
                 
