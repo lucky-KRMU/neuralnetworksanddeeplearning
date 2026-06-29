@@ -111,6 +111,9 @@ class Network:
             
             old_index = 0
             
+            correct = 0
+            total = 0
+            
             for j in range(training_data_size):
                 SGD_batch = training_data[old_index:old_index+batch_size]
                 old_index += batch_size
@@ -132,6 +135,10 @@ class Network:
                     # running the feedforward loop
                     self.feedforward(train_inputs)
                     
+                    if self.predict(train_inputs) == y:
+                        correct += 1
+                    total += 1
+                    
                     
                     # Back propagation code strats from here
                     error_gradient = ( self.io_layer[self.layer_num - 1] - self.vectorize(int(y)) ) * self.sigmoid_prime(self.io_layer[self.layer_num - 1])
@@ -151,6 +158,9 @@ class Network:
                     self.weights[k-1] -= lr * ((layer_error_gradient[k-1])/len(SGD_batch))
                     self.biases[k-1] -= lr * ((layer_bias_gradient[k-1])/len(SGD_batch))
                     
+            # adding the accuracy meter
+            print(f"Accuracy of {i+1} epoch: ", correct/total*100, " %")
+                    
     def predict(self, x):
         output = self.feedforward(x)
         return np.argmax(output)
@@ -166,20 +176,30 @@ test_data = np.loadtxt(
 # print(type(test_data))
 # print(len(test_data))
 # print(test_data.shape)
-a = np.array([test_data[1][1:]]).T
+# a = np.array([test_data[1][1:]]).T
 # print(type(a))
 # print(len(a))
 # print(a.shape)
         
     
-N = Network([784, 50, 10])
         
 # a = np.random.randn(784,1)
-# output = N.feedforward(a)
+# output = N.predict(a)
 # print(output)
-N.train(test_data[1:])
+# N.train(test_data[1:])
+# print(test_data[11][0])
 
-test_output = N.feedforward(test_data[11][1:])
-
+# test_output = N.predict(test_data[11][1:].reshape(784,1))
+# print(test_output)
+# print(test_data[11][1:].reshape(784,1).shape)
 # test_vec = N.vectorize(3)
 # print(test_vec)
+
+
+
+N = Network([784, 50, 10])
+N.train(test_data[1:])
+
+for i in range(10):
+    output = N.predict(test_data[i][1:].reshape(784,1))
+    print(output)
