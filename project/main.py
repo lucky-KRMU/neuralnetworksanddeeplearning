@@ -7,6 +7,7 @@ Further details about the program will be given in the following code only.
 
 
 import numpy as np
+import matplotlib.pyplot as plt
 
 np.random.seed(42)
 
@@ -100,6 +101,9 @@ class Network:
         
         # This is the loop for back propagation (investigating the weights)
         
+        # This is for plotting the graph
+        self.accuracy_percentage = []
+        
         
         for i in range(epochs):
             
@@ -160,6 +164,21 @@ class Network:
                     
             # adding the accuracy meter
             print(f"Accuracy of {i+1} epoch: ", correct/total*100, " %")
+            
+            self.accuracy_percentage.append((correct/total*100))
+        
+        self.epoch_range = [x+1 for x in range(epochs)]
+        
+        # Actual Saving the graph
+        plt.style.use("dark_background")
+        plt.plot(self.epoch_range, self.accuracy_percentage, marker='o', color='cyan', linewidth=3, markersize=8, label='Accuracy')
+        plt.xlabel("epochs")
+        plt.ylabel("accuracy (%)")
+        plt.title("KNN - MNIST Training Accuracy", color="red", fontsize=18)
+        plt.grid(True, linestyle=":")
+        plt.legend()
+        plt.savefig("graphs/accuracy.png")
+        plt.show()
                     
     def predict(self, x):
         output = self.feedforward(x)
