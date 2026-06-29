@@ -45,23 +45,23 @@ import numpy as np
 # print(a)
 
 
-class Network:
-    def __init__(self, list):
-        self.layers = list
-        self.num_layers = len(list)
-        self.weights = [ np.random.randn(x,y) for x,y in zip(self.layers[1:], self.layers[:-1]) ]
-        self.biases = [ np.random.randn(y, 1) for y in  self.layers[1:] ]
+# class Network:
+#     def __init__(self, list):
+#         self.layers = list
+#         self.num_layers = len(list)
+#         self.weights = [ np.random.randn(x,y) for x,y in zip(self.layers[1:], self.layers[:-1]) ]
+#         self.biases = [ np.random.randn(y, 1) for y in  self.layers[1:] ]
         
-    def info(self):
-        print("Information about the weights: ")
-        for layer in self.weights:
-            print(layer.shape)
-        print("Information about biases: ")
-        for layer in self.biases:
-            print(layer.shape)
+#     def info(self):
+#         print("Information about the weights: ")
+#         for layer in self.weights:
+#             print(layer.shape)
+#         print("Information about biases: ")
+#         for layer in self.biases:
+#             print(layer.shape)
         
-Network = Network([784, 50, 10])
-Network.info()
+# Network = Network([784, 50, 10])
+# Network.info()
 
 # a = np.loadtxt('data/dummy_test_train.csv', skiprows=1, delimiter=',')
 # print("loaded")
@@ -73,4 +73,6 @@ Network.info()
 # print(train_inputs.shape)
 
 a = [1,2,3,4,5,6,7,8]
-print(a[2:20])
+b = []
+b.extend(a)
+print(b)
