@@ -216,7 +216,7 @@ test_data = np.loadtxt(
 
 
 
-N = Network([784, 50, 10])
+N = Network([784, 50, 30, 10])
 N.train(test_data[1:], epochs=30, lr=.5)
 
 for i in range(10):
