@@ -108,9 +108,6 @@ class Network:
             # SGD_lists = [ training_data[:10000], training_data[10000:20000], training_data[20000:30000], training_data[30000:40000], training_data[40000:] ]
             
             
-            layer_error = [] # This is for storing δ
-            layer_error_gradient = [] # This is for storing the values of updated gradients of weights
-            layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
             
             old_index = 0
             
@@ -118,6 +115,9 @@ class Network:
                 SGD_batch = training_data[old_index:old_index+batch_size]
                 old_index += batch_size
             
+                layer_error = [] # This is for storing δ
+                layer_error_gradient = [] # This is for storing the values of updated gradients of weights
+                layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
             
                 for data in SGD_batch:
                     
@@ -127,22 +127,17 @@ class Network:
                     train_inputs = np.array(data[1:]).reshape(784,1)
                     # print(train_inputs.shape) 
                     
-                    self.feedforward(train_inputs)
+                    activations_list = self.feedforward(train_inputs)
                     
                     # Back propagation code strats from here
-                    gradient = (self.io_layer[self.io_layer[0]-1] - self.vectorize(y)) * self.sigmoid_prime(self.io_layer[0]-1)
-                    
-                    for k in range(self.layer_num-1, 0, -1):
+                    error_gradient = ( activations_list[self.layer_num - 1] - self.vectorize(y) ) * self.sigmoid_prime(activations_list[self.layer_num - 1])
+                    for k in range(self.layer_num - 1, 0, -1):
                         if k == self.layer_num - 1:
-                            gradient_weight = gradient * (self.io_layer[k-1].T)
-                        else: 
-                            gradient_weight = gradient * self.weights[k] * (self.io_layer[k-1].T)
-                        gradient_bias = gradient
-                        gradient = gradient_weight
+                            error_weight_gradient  = error_gradient @ self.io_layer[k].T
+                        else:
+                            error_weight_gradient = self.weights[k+1].T @ error_gradient @ self.io_layer[k].T
+
                         
-                        # appending to the lists
-                        layer_error_gradient.append(gradient_bias)
-                        layer_bias_gradient.append(gradient_weight)
                         
                 # Gradient Descent starts here
                 for k in range(self.io_layer-1, 0, -1):
