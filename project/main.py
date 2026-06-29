@@ -1,7 +1,3 @@
-'''
-This is a program to create a neural network that would be capable of recognizing hand written digits.
-Further details about the program will be given in the following code only.  
-'''
 
 #importing the necessary modules/libraries
 
@@ -48,27 +44,13 @@ class Network:
         '''
         a = a/255.0 # -> this is used for normalizing the value of each pixel. pixel activation lies in [0,255]
         self.io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
-        # printing certain values for the sake of debugging.
-        # print(type(io_layer[0]))
-        # print(io_layer[0].shape)
-        # print(self.weights[0].shape)
-        # print(self.layer_num-1)
-        # print([x for x in range(self.layer_num - 1)])
+       
         for i in range(self.layer_num - 1):
-            # Defining certain required entities
             w = self.weights[i]
             b = self.biases[i]
             x = self.io_layer[i]
-            # printing certain values for the sake of debugging.
-            # print(w,b,act)
-            # print(i+1," loop working till here!")
-            # print(w.shape)
-            # print(b.shape)
-            # print(x.shape)
             z = w @ x + b
             a = self.sigmoid(z)
-            # @ decorator is used in python numpy to do matrix multiplication.
-            # print(i+1, " loop worked")
             self.io_layer.append(a)
         return a
     
@@ -84,13 +66,6 @@ class Network:
         
     
     def train(self, training_data: list, lr: float = .01, epochs: int = 20):
-        '''
-        Information about train function.
-        1. About the training_data:
-        In this function training data will be given as whole. The training data consists of numpy arrays. it has over 28,000 numpy arrays inside of it. 
-        Whole is packed as a single numpy array. creating a 2D matrix.
-        each row has 785 columns, in which the first column consists of the label and the other are the actual numbers.
-        '''
         
         # necessary variables for SGD
         batch_size = 64
@@ -109,7 +84,6 @@ class Network:
             
             # applying SGD (Stochastic gradient descent)
             np.random.shuffle(training_data)
-            # SGD_lists = [ training_data[:10000], training_data[10000:20000], training_data[20000:30000], training_data[30000:40000], training_data[40000:] ]
             
             
             
@@ -130,9 +104,6 @@ class Network:
                 for data in SGD_batch:
                     
                     y = data[0]
-                    # print(y)
-                    # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
-                    # train_inputs = data[1:]
                     train_inputs = np.array(data[1:]).reshape(784,1)
                     # print(train_inputs.shape) 
                     
@@ -192,28 +163,6 @@ test_data = np.loadtxt(
     delimiter=',',
     skiprows=1
 )
-# print(type(test_data))
-# print(len(test_data))
-# print(test_data.shape)
-# a = np.array([test_data[1][1:]]).T
-# print(type(a))
-# print(len(a))
-# print(a.shape)
-        
-    
-        
-# a = np.random.randn(784,1)
-# output = N.predict(a)
-# print(output)
-# N.train(test_data[1:])
-# print(test_data[11][0])
-
-# test_output = N.predict(test_data[11][1:].reshape(784,1))
-# print(test_output)
-# print(test_data[11][1:].reshape(784,1).shape)
-# test_vec = N.vectorize(3)
-# print(test_vec)
-
 
 
 N = Network([784, 50, 30, 10])
