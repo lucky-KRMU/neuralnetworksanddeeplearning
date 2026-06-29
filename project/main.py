@@ -166,8 +166,13 @@ test_data = np.loadtxt(
 
 
 N = Network([784, 50, 30, 10])
-N.train(test_data[1:], epochs=30, lr=.5)
+N.train(test_data[1:], epochs=50, lr=.5)
 
 for i in range(10):
     output = N.predict(test_data[i][1:].reshape(784,1))
     print(output)
+
+# storing the weights and biases in a text file
+np.save("parameters/weights.npy", np.array(N.weights, dtype=object))
+np.save("parameters/biases.npy", np.array(N.biases, dtype=object))
+    
