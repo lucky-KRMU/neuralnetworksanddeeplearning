@@ -82,7 +82,7 @@ class Network:
     
         
     
-    def train(self, training_data: list, lr: float = .01, epochs: int = 10):
+    def train(self, training_data: list, lr: float = .01, epochs: int = 20):
         '''
         Information about train function.
         1. About the training_data:
@@ -123,7 +123,7 @@ class Network:
                 for data in SGD_batch:
                     
                     y = data[0]
-                    print(y)
+                    # print(y)
                     # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
                     # train_inputs = data[1:]
                     train_inputs = np.array(data[1:]).reshape(784,1)
