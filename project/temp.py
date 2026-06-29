@@ -45,28 +45,28 @@ import numpy as np
 # print(a)
 
 
-# class Network:
-#     def __init__(self, list):
-#         self.layers = list
-#         self.num_layers = len(list)
-#         self.weights = [ np.random.randn(x,y) for x,y in zip(self.layers[1:], self.layers[:-1]) ]
-#         self.biases = [ np.random.randn(y, 1) for y in  self.layers[1:] ]
+class Network:
+    def __init__(self, list):
+        self.layers = list
+        self.num_layers = len(list)
+        self.weights = [ np.random.randn(x,y) for x,y in zip(self.layers[1:], self.layers[:-1]) ]
+        self.biases = [ np.random.randn(y, 1) for y in  self.layers[1:] ]
         
-#     def info(self):
-#         print("Information about the weights: ")
-#         for layer in self.weights:
-#             print(layer.shape)
-#         print("Information about biases: ")
-#         for layer in self.biases:
-#             print(layer.shape)
+    def info(self):
+        print("Information about the weights: ")
+        for layer in self.weights:
+            print(layer.shape)
+        print("Information about biases: ")
+        for layer in self.biases:
+            print(layer.shape)
         
-# Network = Network([784, 50, 10])
-# Network.info()
+Network = Network([784, 50, 10])
+Network.info()
 
-a = np.loadtxt('data/dummy_test_train.csv', skiprows=1, delimiter=',')
-print("loaded")
-print(type(a))
-print(a.shape)
+# a = np.loadtxt('data/dummy_test_train.csv', skiprows=1, delimiter=',')
+# print("loaded")
+# print(type(a))
+# print(a.shape)
 # train_inputs = np.array(a[1][1:]).reshape(784,1)
 # print("loaded")
 # print(type(train_inputs))

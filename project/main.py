@@ -20,7 +20,7 @@ class Network:
         self.layer_num: int = len(net_size)
         
         self.biases = [ np.random.randn(y, 1) for y in (net_size[1:]) ] # Defining the biases of the entire network\
-        self.weights = [ np.random.randn(y,x) for y,x in zip(net_size[ 1: ], net_size[ :-1 ]) ] # Definging the weights for each layer of the entire network
+        self.weights = [ np.random.randn(y,x) / np.sqrt(x) for y,x in zip(net_size[ 1: ], net_size[ :-1 ]) ] # Definging the weights for each layer of the entire network
         
     # The sigmoid/activatoin function
     def sigmoid(self, z: float) -> float:
@@ -45,7 +45,7 @@ class Network:
         total parameters of this Neural Network would turn out ot be 784x50 + 50 + 50x10 + 10 = 39,760
         Hence, this model would have 39,760 parameters.
         '''
-        a = a/255 # -> this is used for normalizing the value of each pixel. pixel activation lies in [0,255]
+        a = a/255.0 # -> this is used for normalizing the value of each pixel. pixel activation lies in [0,255]
         self.io_layer = [a] # This is actually the list that would consists of all the input/output of the network for each layer.
         # printing certain values for the sake of debugging.
         # print(type(io_layer[0]))
@@ -198,7 +198,7 @@ test_data = np.loadtxt(
 
 
 N = Network([784, 50, 10])
-N.train(test_data[1:])
+N.train(test_data[1:], epochs=30, lr=.5)
 
 for i in range(10):
     output = N.predict(test_data[i][1:].reshape(784,1))
