@@ -150,6 +150,10 @@ class Network:
                 for k in range(self.layer_num-1, 0, -1):
                     self.weights[k-1] -= lr * ((layer_error_gradient[k-1])/len(SGD_batch))
                     self.biases[k-1] -= lr * ((layer_bias_gradient[k-1])/len(SGD_batch))
+                    
+    def predict(self, x):
+        output = self.feedforward(x)
+        return np.argmax(output)
                 
         
 
@@ -175,7 +179,7 @@ N = Network([784, 50, 10])
 # print(output)
 N.train(test_data[1:])
 
-test_output = N.feedforward(test_data[11])
+test_output = N.feedforward(test_data[11][1:])
 
 # test_vec = N.vectorize(3)
 # print(test_vec)
