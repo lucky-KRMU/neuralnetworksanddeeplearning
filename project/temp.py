@@ -72,7 +72,7 @@ import numpy as np
 # print(type(train_inputs))
 # print(train_inputs.shape)
 
-a = [1,2,3,4,5,6,7,8]
-b = []
-b.extend(a)
-print(b)
+# a = [1,2,3,4,5,6,7,8]
+# b = []
+# b.extend(a)
+# print(b)

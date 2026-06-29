@@ -82,7 +82,7 @@ class Network:
     
         
     
-    def train(self, training_data: list, lr: float = .01, epochs: int = 1):
+    def train(self, training_data: list, lr: float = .01, epochs: int = 10):
         '''
         Information about train function.
         1. About the training_data:
@@ -123,6 +123,7 @@ class Network:
                 for data in SGD_batch:
                     
                     y = data[0]
+                    print(y)
                     # here actually the training inputs are just a 1D vector with (784,) shape, but we need a 2D matrix, hence we will change it
                     # train_inputs = data[1:]
                     train_inputs = np.array(data[1:]).reshape(784,1)
@@ -133,7 +134,7 @@ class Network:
                     
                     
                     # Back propagation code strats from here
-                    error_gradient = ( self.io_layer[self.layer_num - 1] - self.vectorize(y) ) * self.sigmoid_prime(self.io_layer[self.layer_num - 1])
+                    error_gradient = ( self.io_layer[self.layer_num - 1] - self.vectorize(int(y)) ) * self.sigmoid_prime(self.io_layer[self.layer_num - 1])
                     for k in range(self.layer_num - 1, 0, -1):
                         error_weight_gradient  = error_gradient @ self.io_layer[k-1].T
                         
@@ -170,9 +171,11 @@ a = np.array([test_data[1][1:]]).T
 N = Network([784, 50, 10])
         
 # a = np.random.randn(784,1)
-output = N.feedforward(a)
+# output = N.feedforward(a)
 # print(output)
 N.train(test_data[1:])
+
+test_output = N.feedforward(test_data[11])
 
 # test_vec = N.vectorize(3)
 # print(test_vec)
