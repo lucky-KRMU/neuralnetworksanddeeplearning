@@ -117,8 +117,8 @@ class Network:
             
                 
                 
-                layer_error_gradient = np.array([ np.zeros(x.shape) for x in self.weights ]) # This is for storing the values of updated gradients of weights
-                layer_bias_gradient = np.array([ np.zeros(x.shape) for x in self.biases ]) # This is for storing the values of updated gradients of biases
+                layer_error_gradient = [ np.zeros_like(x) for x in self.weights ] # This is for storing the values of updated gradients of weights
+                layer_bias_gradient = [ np.zeros_like(x) for x in self.biases ] # This is for storing the values of updated gradients of biases
             
                 for data in SGD_batch:
                     
@@ -147,8 +147,8 @@ class Network:
                         
                 # Gradient Descent starts here
                 for k in range(self.layer_num-1, 0, -1):
-                    self.weights[k-1] -= lr * ((layer_error_gradient[k-1])/batch_size)
-                    self.biases[k-1] -= lr * ((layer_bias_gradient[k-1])/batch_size)
+                    self.weights[k-1] -= lr * ((layer_error_gradient[k-1])/len(SGD_batch))
+                    self.biases[k-1] -= lr * ((layer_bias_gradient[k-1])/len(SGD_batch))
                 
         
 
