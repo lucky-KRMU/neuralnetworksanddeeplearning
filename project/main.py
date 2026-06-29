@@ -116,8 +116,9 @@ class Network:
                 old_index += batch_size
             
                 
-                layer_error_gradient = [] # This is for storing the values of updated gradients of weights
-                layer_bias_gradient = [] # This is for storing the values of updated gradients of biases
+                
+                layer_error_gradient = np.array([ np.zeros(x.shape) for x in self.weights ]) # This is for storing the values of updated gradients of weights
+                layer_bias_gradient = np.array([ np.zeros(x.shape) for x in self.biases ]) # This is for storing the values of updated gradients of biases
             
                 for data in SGD_batch:
                     
@@ -130,32 +131,24 @@ class Network:
                     # running the feedforward loop
                     self.feedforward(train_inputs)
                     
-                    # temperory list
-                    temp_gra_weight = []
-                    temp_gra_bias = []
                     
                     # Back propagation code strats from here
                     error_gradient = ( self.io_layer[self.layer_num - 1] - self.vectorize(y) ) * self.sigmoid_prime(self.io_layer[self.layer_num - 1])
                     for k in range(self.layer_num - 1, 0, -1):
                         error_weight_gradient  = error_gradient @ self.io_layer[k-1].T
                         
-                        temp_gra_weight.append(error_weight_gradient)
-                        temp_gra_bias.append(error_gradient)
+                        layer_error_gradient[k-1] += (error_weight_gradient)
+                        layer_bias_gradient[k-1] += (error_gradient)
                         
                         # updating the error gradient
                         error_gradient = self.weights[k-1].T @ error_gradient * self.sigmoid_prime(self.io_layer[k -1])
                         
-                    temp_gra_bias = temp_gra_bias[::-1]
-                    temp_gra_weight = temp_gra_weight[::-1]
-                    
-                    layer_error_gradient.extend(temp_gra_weight)
-                    layer_bias_gradient.extend(temp_gra_bias)
                         
                         
                 # Gradient Descent starts here
                 for k in range(self.layer_num-1, 0, -1):
-                    self.weights[k-1] -= lr * layer_error_gradient[k-1]
-                    self.biases[k-1] -= lr * layer_bias_gradient[k-1]
+                    self.weights[k-1] -= lr * ((layer_error_gradient[k-1])/batch_size)
+                    self.biases[k-1] -= lr * ((layer_bias_gradient[k-1])/batch_size)
                 
         
 
